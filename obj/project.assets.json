@@ -6184,19 +6184,23 @@
     ]
   },
   "packageFolders": {
-    "/Users/james/.nuget/packages/": {}
+    "C:\\Users\\Saharat Tiew\\.nuget\\packages\\": {},
+    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/james/Desktop/Senseition/Senseition.csproj",
+      "projectUniqueName": "D:\\senseition-api\\Senseition.csproj",
       "projectName": "Senseition",
-      "projectPath": "/Users/james/Desktop/Senseition/Senseition.csproj",
-      "packagesPath": "/Users/james/.nuget/packages/",
-      "outputPath": "/Users/james/Desktop/Senseition/obj/",
+      "projectPath": "D:\\senseition-api\\Senseition.csproj",
+      "packagesPath": "C:\\Users\\Saharat Tiew\\.nuget\\packages\\",
+      "outputPath": "D:\\senseition-api\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+      ],
       "configFilePaths": [
-        "/Users/james/.nuget/NuGet/NuGet.Config"
+        "C:\\Users\\Saharat Tiew\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp3.1"
@@ -6206,6 +6210,7 @@
       },
       "frameworks": {
         "netcoreapp3.1": {
+          "targetAlias": "netcoreapp3.1",
           "projectReferences": {}
         }
       },
@@ -6217,6 +6222,7 @@
     },
     "frameworks": {
       "netcoreapp3.1": {
+        "targetAlias": "netcoreapp3.1",
         "dependencies": {
           "AutoMapper": {
             "target": "Package",
@@ -6295,7 +6301,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/3.1.404/RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.104\\RuntimeIdentifierGraph.json"
       }
     }
   }

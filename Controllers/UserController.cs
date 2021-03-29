@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -20,65 +21,47 @@ namespace Senseition.Controllers
 
         public UserController(ApplicationDbContext context) : base(context) { }
 
-        // website/api/v1/user/users
-        // Include : join
-        // get all users
-        [HttpGet("users")]
-        public IActionResult GetUsers1()
-        {
-            var a = new User();
-            return Json(a);
-        }
-
-        // website/api/v1/user/users1?user=1
-        [HttpGet("users1")]
-        public IActionResult GetUsers2(long user)
-        {
-            var a = new User();
-            return Json(a);
-        }
-
-        // website/api/v1/user/users/1
-        [HttpGet("users/{user}")]
-        public IActionResult GetUsers(long id)
-        {
-            var user = new User();
-            
-            if(id != user.id)
-            {
-                return BadRequest();
-            } else 
-            {
-                return Json(user);
-            }
-
-        }
-    
         [HttpPost("login")]
         public IActionResult Login(LoginViewModel model)
         {
-            return Json(model);
+            var user = _db.User.SingleOrDefault(x => x.username == model.Username
+                                                     && x.password == model.Password);
+
+            if (user == null)
+                return BadRequest(new { Message = "user not found" });
+
+            return Json(new
+            {
+                Id = user.id,
+                FirstName = user.first_name,
+                LastName = user.last_name,
+                Email = user.email
+            });
         }
 
         [HttpPost("register")]
         public IActionResult Register(RegisterViewModel model)
         {
-            return Json(model);
+            if (_db.User.Any(x => x.username == model.Username))
+                return BadRequest(new { Message = "duplicated username!"});
+
+            bool isValidEmail = Regex.IsMatch(model.Email,
+                    @"^[^@\s]+@[^@\s]+\.[^@\s]+$",
+                    RegexOptions.IgnoreCase, TimeSpan.FromMilliseconds(250));
+
+            if (!isValidEmail)
+                return BadRequest(new { Message = "wrong email!" });
+
+            var newUser = new User()
+                          {
+                              first_name = model.FirstName,
+                              last_name = model.LastName,
+                              username = model.Username,
+                              password = model.Password,
+                              email = model.Email,
+                          };
+            
+            return Ok();
         }
-
-
-        // [HttpGet("students")]
-        // public IActionResult GetStudents()
-        // {
-        //     var result = _studentProvider.GetStudents().ToAPIResponse();
-        //     return StatusCode(result.HTTPStatusCode, result);
-        // }
-
-        // [HttpPost("students")]
-        // public async Task<IActionResult> AddStudents(StudentViewModel model)
-        // {
-        //     var result = (await _studentProvider.AddStudents(model)).ToAPIResponse();
-        //     return StatusCode(result.HTTPStatusCode, result);
-        // }
     }
 }
