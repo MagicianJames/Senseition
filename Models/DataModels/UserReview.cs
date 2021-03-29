@@ -1,3 +1,4 @@
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -36,5 +37,6 @@ namespace Senseition.Models.DataModels
         [StringLength(100)]
         public string teacher_last_name { get; set; }
         public string course_name { get; set; }
+        public DateTime post_date_time { get; set; }
     }
 }

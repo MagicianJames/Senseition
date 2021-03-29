@@ -21,6 +21,15 @@ namespace Senseition.Models.DataModels
         public long major_id { get; set; }
         [ForeignKey(nameof(major_id))]
         public virtual Major Major { get; set; }
+
+        [NotMapped]
+        public string teacher_full_name
+        {
+            get
+            {
+                return $"{ first_name } { last_name }";
+            }
+        }
         
     }
 }

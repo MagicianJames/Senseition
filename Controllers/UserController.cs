@@ -40,28 +40,37 @@ namespace Senseition.Controllers
         }
 
         [HttpPost("register")]
-        public IActionResult Register(RegisterViewModel model)
+        public async Task<IActionResult> Register(RegisterViewModel model)
         {
-            if (_db.Users.Any(x => x.username == model.Username))
-                return BadRequest(new { Message = "duplicated username!"});
+            try
+            {
+                if (_db.Users.Any(x => x.username == model.Username))
+                    return BadRequest(new { Message = "duplicated username!"});
 
-            bool isValidEmail = Regex.IsMatch(model.Email,
-                    @"^[^@\s]+@[^@\s]+\.[^@\s]+$",
-                    RegexOptions.IgnoreCase, TimeSpan.FromMilliseconds(250));
+                bool isValidEmail = Regex.IsMatch(model.Email,
+                        @"^[^@\s]+@[^@\s]+\.[^@\s]+$",
+                        RegexOptions.IgnoreCase, TimeSpan.FromMilliseconds(250));
 
-            if (!isValidEmail)
-                return BadRequest(new { Message = "wrong email!" });
+                if (!isValidEmail)
+                    return BadRequest(new { Message = "wrong email!" });
 
-            var newUser = new Users()
-                          {
-                              first_name = model.FirstName,
-                              last_name = model.LastName,
-                              username = model.Username,
-                              password = model.Password,
-                              email = model.Email,
-                          };
-            
-            return Ok();
+                var newUser = new Users()
+                            {
+                                first_name = model.FirstName,
+                                last_name = model.LastName,
+                                username = model.Username,
+                                password = model.Password,
+                                email = model.Email,
+                            };
+                
+                _db.Users.Add(newUser);
+                await _db.SaveChangesAsync();
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
         }
     }
 }

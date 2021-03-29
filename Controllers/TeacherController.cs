@@ -19,6 +19,29 @@ namespace Senseition.Controllers
     {
         public TeacherController(ApplicationDbContext context) : base(context) { }
 
+        [HttpGet("biography")]
+        public IActionResult GetBiographies(long teacherId)
+        {
+            var teacher = _db.Teacher
+                             .Include(x => x.Major)
+                                .ThenInclude(x => x.Faculty)
+                             .SingleOrDefault(x => x.id == teacherId);
+
+            if (teacher == null)
+                return BadRequest(new { Message = "teacher not found" });
+
+            return Json(new
+                        {
+                            FullName = teacher.teacher_full_name,
+                            Position = teacher.position,
+                            FacultyLogo = teacher?.Major?.Faculty?.logo_url,
+                            Major = teacher?.Major?.major_name,
+                            Faculty = teacher?.Major?.Faculty?.faculty_name,
+                            Biography = teacher.biography,
+                            PictureUrl = teacher.picture_url
+                        });
+        }
+
         [HttpGet("courses")]
         public IActionResult GetCourses(long teacherId)
         {
@@ -28,8 +51,17 @@ namespace Senseition.Controllers
                                                         {
                                                             CourseId = x.course_id,
                                                             CourseName = x.Course.course_name,
-
-                                                        });
+                                                            Rate = (_db.UserReview.Where(y => y.course_id == x.course_id
+                                                                                             && y.teacher_id == x.teacher_id)
+                                                                                 .Sum(x => x.average_rate)) / 
+                                                                                 
+                                                                                    _db.UserReview.Where(y => y.course_id == x.course_id
+                                                                                                              && y.teacher_id == x.teacher_id)
+                                                                                       .Count(),
+                                                            MaxRate = 5
+                                                        })
+                                           .OrderByDescending(x => x.Rate)
+                                           .ToList();
             
             if (!courses.Any())
                 return BadRequest(new { Message = "course not found"});
