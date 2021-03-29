@@ -24,7 +24,7 @@ namespace Senseition.Controllers
         [HttpPost("login")]
         public IActionResult Login(LoginViewModel model)
         {
-            var user = _db.User.SingleOrDefault(x => x.username == model.Username
+            var user = _db.Users.SingleOrDefault(x => x.username == model.Username
                                                      && x.password == model.Password);
 
             if (user == null)
@@ -42,7 +42,7 @@ namespace Senseition.Controllers
         [HttpPost("register")]
         public IActionResult Register(RegisterViewModel model)
         {
-            if (_db.User.Any(x => x.username == model.Username))
+            if (_db.Users.Any(x => x.username == model.Username))
                 return BadRequest(new { Message = "duplicated username!"});
 
             bool isValidEmail = Regex.IsMatch(model.Email,
@@ -52,7 +52,7 @@ namespace Senseition.Controllers
             if (!isValidEmail)
                 return BadRequest(new { Message = "wrong email!" });
 
-            var newUser = new User()
+            var newUser = new Users()
                           {
                               first_name = model.FirstName,
                               last_name = model.LastName,

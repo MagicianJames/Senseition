@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Senseition.Models.DataModels
 {
-    public class User
+    public class Users
     {
         public long id { get; set; }
         [StringLength (100)]

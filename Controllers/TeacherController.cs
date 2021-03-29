@@ -19,17 +19,22 @@ namespace Senseition.Controllers
     {
         public TeacherController(ApplicationDbContext context) : base(context) { }
 
-        // [HttpGet("courses")]
-        // public IActionResult GetAllFaculties()
-        // {
-        //     var faculties = _db.Cours.Select(x => new
-        //                                             {
-        //                                                 id = x.id,
-        //                                                 name = x.faculty_name
-        //                                             })
-        //                                .ToList();
-        //     return Json(faculties);
-        // }
+        [HttpGet("courses")]
+        public IActionResult GetCourses(long teacherId)
+        {
+            var courses = _db.TeacherCourse.Include(x => x.Course)
+                                           .Where(x => x.teacher_id == teacherId)
+                                           .Select(x => new
+                                                        {
+                                                            CourseId = x.course_id,
+                                                            CourseName = x.Course.course_name,
+
+                                                        });
+            
+            if (!courses.Any())
+                return BadRequest(new { Message = "course not found"});
+
+            return Json(courses);
+        }
     }
 }
-

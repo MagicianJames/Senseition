@@ -18,11 +18,11 @@ namespace Senseition.Controllers
     public class MajorController : BaseController
     {
         public MajorController(ApplicationDbContext context) : base(context) {}
-        
+
         [HttpGet("majors")]
         public IActionResult GetAllMajors(long facultyId)
         {
-            var majors = _db.Major.Where(x => x.facult_id == facultyId)
+            var majors = _db.Major.Where(x => x.faculty_id == facultyId)
                                   .Select(x => new
                                                {
                                                    MajorId = x.id,

@@ -35,11 +35,11 @@ namespace Senseition.Controllers
         public IActionResult GetAllFacultyMembers(long facultyId, int page=1, int pageSize=6)
         {
             var numPages = _db.Teacher.Include(x => x.Major)
-                                      .Where(x => x.Major.facult_id == facultyId)
+                                      .Where(x => x.Major.faculty_id == facultyId)
                                       .Count();
 
             var facultyMembers = _db.Teacher.Include(x => x.Major)
-                                            .Where(x => x.Major.facult_id == facultyId)
+                                            .Where(x => x.Major.faculty_id == facultyId)
                                             .Select(x => new
                                                          {
                                                              Id = x.id,

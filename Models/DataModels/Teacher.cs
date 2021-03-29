@@ -18,8 +18,8 @@ namespace Senseition.Models.DataModels
         public byte age { get; set; }
         public byte rate { get; set; }
         public string picture_url { get; set; }
-        [ForeignKey(nameof(major_id))]
         public long major_id { get; set; }
+        [ForeignKey(nameof(major_id))]
         public virtual Major Major { get; set; }
         
     }
