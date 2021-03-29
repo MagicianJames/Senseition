@@ -22,7 +22,8 @@ namespace Senseition.Controllers
         public IActionResult GetAllFaculties()
         {
             var faculties = _db.Faculty.Select(
-                x => new {id = x.id, facultyName = x.faculty_name, facultyLogo = x.logo_url }).ToList();
+                x => new { id = x.id, facultyName = x.faculty_name, facultyLogo = x.logo_url }
+                ).ToList();
             return Json(faculties);
         } 
     }
