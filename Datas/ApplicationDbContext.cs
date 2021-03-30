@@ -21,7 +21,7 @@ namespace Senseition.Datas
         public DbSet<Survey> Survey { get; set; }
         public DbSet<Teacher> Teacher { get; set; }
         public DbSet<TeacherCourse> TeacherCourse { get; set; }
-        public DbSet<User> User { get; set; }
+        public DbSet<Users> Users { get; set; }
         public DbSet<UserReview> UserReview { get; set; }
 
     }

@@ -8,10 +8,11 @@ namespace Senseition.Models.DataModels
         public long id { get; set; }
         [StringLength (100)]
         public string major_name { get; set; }
-        [ForeignKey(nameof(facult_id))]
-        public long facult_id { get; set; }
-        public virtual Faculty Faculty { get; set; }
+        public long faculty_id { get; set; }
         public string major_logo { get; set; }
+        [ForeignKey(nameof(faculty_id))]
+        public virtual Faculty Faculty { get; set; }
+        
         
     }
 }

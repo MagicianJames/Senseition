@@ -26,6 +26,10 @@ namespace Senseition.Migrations
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("course_code")
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
+
                     b.Property<string>("course_name")
                         .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
@@ -41,6 +45,9 @@ namespace Senseition.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("faculty_full_name")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("faculty_name")
                         .HasColumnType("nvarchar(100)")
@@ -61,10 +68,7 @@ namespace Senseition.Migrations
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<long?>("Facultyid")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("facult_id")
+                    b.Property<long>("faculty_id")
                         .HasColumnType("bigint");
 
                     b.Property<string>("major_logo")
@@ -76,7 +80,7 @@ namespace Senseition.Migrations
 
                     b.HasKey("id");
 
-                    b.HasIndex("Facultyid");
+                    b.HasIndex("faculty_id");
 
                     b.ToTable("Major");
                 });
@@ -115,17 +119,8 @@ namespace Senseition.Migrations
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<long?>("Majorid")
-                        .HasColumnType("bigint");
-
-                    b.Property<byte>("age")
-                        .HasColumnType("tinyint");
-
                     b.Property<string>("biography")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("birthdate")
-                        .HasColumnType("datetime2");
 
                     b.Property<string>("first_name")
                         .HasColumnType("nvarchar(100)")
@@ -145,12 +140,12 @@ namespace Senseition.Migrations
                         .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
 
-                    b.Property<byte>("rate")
-                        .HasColumnType("tinyint");
+                    b.Property<float>("rate")
+                        .HasColumnType("real");
 
                     b.HasKey("id");
 
-                    b.HasIndex("Majorid");
+                    b.HasIndex("major_id");
 
                     b.ToTable("Teacher");
                 });
@@ -162,12 +157,6 @@ namespace Senseition.Migrations
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<long?>("Courseid")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("Teacherid")
-                        .HasColumnType("bigint");
-
                     b.Property<long>("course_id")
                         .HasColumnType("bigint");
 
@@ -176,46 +165,11 @@ namespace Senseition.Migrations
 
                     b.HasKey("id");
 
-                    b.HasIndex("Courseid");
+                    b.HasIndex("course_id");
 
-                    b.HasIndex("Teacherid");
+                    b.HasIndex("teacher_id");
 
                     b.ToTable("TeacherCourse");
-                });
-
-            modelBuilder.Entity("Senseition.Models.DataModels.User", b =>
-                {
-                    b.Property<long>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("email")
-                        .HasColumnType("nvarchar(100)")
-                        .HasMaxLength(100);
-
-                    b.Property<string>("first_name")
-                        .HasColumnType("nvarchar(100)")
-                        .HasMaxLength(100);
-
-                    b.Property<string>("last_name")
-                        .HasColumnType("nvarchar(100)")
-                        .HasMaxLength(100);
-
-                    b.Property<string>("password")
-                        .HasColumnType("nvarchar(100)")
-                        .HasMaxLength(100);
-
-                    b.Property<string>("user_picture_url")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("usernam")
-                        .HasColumnType("nvarchar(100)")
-                        .HasMaxLength(100);
-
-                    b.HasKey("id");
-
-                    b.ToTable("User");
                 });
 
             modelBuilder.Entity("Senseition.Models.DataModels.UserReview", b =>
@@ -225,20 +179,11 @@ namespace Senseition.Migrations
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<long?>("Courseid")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("Surveyid")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("Teacherid")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("Userid")
-                        .HasColumnType("bigint");
-
                     b.Property<float>("average_rate")
                         .HasColumnType("real");
+
+                    b.Property<string>("course_code")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<long>("course_id")
                         .HasColumnType("bigint");
@@ -248,6 +193,9 @@ namespace Senseition.Migrations
 
                     b.Property<int>("like_no")
                         .HasColumnType("int");
+
+                    b.Property<DateTime>("post_date_time")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("review_message")
                         .HasColumnType("nvarchar(max)");
@@ -283,59 +231,113 @@ namespace Senseition.Migrations
 
                     b.HasKey("id");
 
-                    b.HasIndex("Courseid");
+                    b.HasIndex("course_id");
 
-                    b.HasIndex("Surveyid");
+                    b.HasIndex("survey_id")
+                        .IsUnique();
 
-                    b.HasIndex("Teacherid");
+                    b.HasIndex("teacher_id");
 
-                    b.HasIndex("Userid");
+                    b.HasIndex("user_id");
 
                     b.ToTable("UserReview");
+                });
+
+            modelBuilder.Entity("Senseition.Models.DataModels.Users", b =>
+                {
+                    b.Property<long>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("email")
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
+
+                    b.Property<string>("first_name")
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
+
+                    b.Property<string>("last_name")
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
+
+                    b.Property<string>("password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
+
+                    b.Property<string>("user_picture_url")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("username")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
+
+                    b.HasKey("id");
+
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("Senseition.Models.DataModels.Major", b =>
                 {
                     b.HasOne("Senseition.Models.DataModels.Faculty", "Faculty")
                         .WithMany()
-                        .HasForeignKey("Facultyid");
+                        .HasForeignKey("faculty_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Senseition.Models.DataModels.Teacher", b =>
                 {
                     b.HasOne("Senseition.Models.DataModels.Major", "Major")
                         .WithMany()
-                        .HasForeignKey("Majorid");
+                        .HasForeignKey("major_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Senseition.Models.DataModels.TeacherCourse", b =>
                 {
                     b.HasOne("Senseition.Models.DataModels.Course", "Course")
                         .WithMany()
-                        .HasForeignKey("Courseid");
+                        .HasForeignKey("course_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Senseition.Models.DataModels.Teacher", "Teacher")
                         .WithMany()
-                        .HasForeignKey("Teacherid");
+                        .HasForeignKey("teacher_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Senseition.Models.DataModels.UserReview", b =>
                 {
                     b.HasOne("Senseition.Models.DataModels.Course", "Course")
                         .WithMany()
-                        .HasForeignKey("Courseid");
+                        .HasForeignKey("course_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Senseition.Models.DataModels.Survey", "Survey")
-                        .WithMany()
-                        .HasForeignKey("Surveyid");
+                        .WithOne("UserReview")
+                        .HasForeignKey("Senseition.Models.DataModels.UserReview", "survey_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Senseition.Models.DataModels.Teacher", "Teacher")
                         .WithMany()
-                        .HasForeignKey("Teacherid");
+                        .HasForeignKey("teacher_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.HasOne("Senseition.Models.DataModels.User", "User")
+                    b.HasOne("Senseition.Models.DataModels.Users", "User")
                         .WithMany()
-                        .HasForeignKey("Userid");
+                        .HasForeignKey("user_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

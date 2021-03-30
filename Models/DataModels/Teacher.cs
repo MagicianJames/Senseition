@@ -14,13 +14,20 @@ namespace Senseition.Models.DataModels
         [StringLength (100)]
         public string position { get; set; }
         public string biography { get; set; }
-        public DateTime birthdate { get; set; }
-        public byte age { get; set; }
-        public byte rate { get; set; }
+        public float rate { get; set; }
         public string picture_url { get; set; }
-        [ForeignKey(nameof(major_id))]
         public long major_id { get; set; }
+        [ForeignKey(nameof(major_id))]
         public virtual Major Major { get; set; }
+
+        [NotMapped]
+        public string teacher_full_name
+        {
+            get
+            {
+                return $"{ first_name } { last_name }";
+            }
+        }
         
     }
 }
