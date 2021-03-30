@@ -28,7 +28,7 @@ namespace Senseition.Controllers
                                                      && x.password == model.Password);
 
             if (user == null)
-                return BadRequest(new { Message = "user not found" });
+                return BadRequest(new { Message = "user not found or incorrect password" });
 
             return Json(new
             {
@@ -37,6 +37,15 @@ namespace Senseition.Controllers
                 LastName = user.last_name,
                 Email = user.email
             });
+        }
+
+        [HttpPost("check-duplicate")]
+        public IActionResult CheckLoginDuplicate(LoginViewModel model)
+        {
+            if (_db.Users.Any(x => x.username == model.Username))
+                return BadRequest(new { Message = "duplicated username!"});
+            
+            return Ok();
         }
 
         [HttpPost("register")]

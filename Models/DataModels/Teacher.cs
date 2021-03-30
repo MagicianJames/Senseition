@@ -14,9 +14,7 @@ namespace Senseition.Models.DataModels
         [StringLength (100)]
         public string position { get; set; }
         public string biography { get; set; }
-        public DateTime birthdate { get; set; }
-        public byte age { get; set; }
-        public byte rate { get; set; }
+        public float rate { get; set; }
         public string picture_url { get; set; }
         public long major_id { get; set; }
         [ForeignKey(nameof(major_id))]

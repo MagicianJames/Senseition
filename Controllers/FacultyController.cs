@@ -47,7 +47,8 @@ namespace Senseition.Controllers
                                                              LastName = x.last_name,
                                                              Major = x.Major.major_name,
                                                              Position = x.position,
-                                                             Rate = x.rate
+                                                             Rate = x.rate,
+                                                             MaxRate = 5
                                                          })
                                             .Skip(pageSize * (page - 1))
                                             .Take(pageSize)
@@ -56,7 +57,7 @@ namespace Senseition.Controllers
             if (!facultyMembers.Any())
                 return BadRequest(new { Message = "member not found" });
 
-            return Json(new { members = facultyMembers, numPages });
+            return Json(new { members = facultyMembers, numPages = (int)Math.Ceiling(numPages / (float)pageSize) });
         }
 
         [HttpGet("faculties-member-major")]
@@ -83,7 +84,7 @@ namespace Senseition.Controllers
             if (!facultyMembers.Any())
                 return BadRequest(new { Message = "member not found" });
 
-            return Json(new { members = facultyMembers, numPages });
+            return Json(new { members = facultyMembers, numPages = (int)Math.Ceiling(numPages / (float)pageSize) });
         }
     }
 }

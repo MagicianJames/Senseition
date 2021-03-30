@@ -36,7 +36,7 @@ namespace Senseition.Controllers
                             Position = teacher.position,
                             FacultyLogo = teacher?.Major?.Faculty?.logo_url,
                             Major = teacher?.Major?.major_name,
-                            Faculty = teacher?.Major?.Faculty?.faculty_name,
+                            Faculty = teacher?.Major?.Faculty?.faculty_full_name,
                             Biography = teacher.biography,
                             PictureUrl = teacher.picture_url
                         });
@@ -49,7 +49,7 @@ namespace Senseition.Controllers
                                            .Where(x => x.teacher_id == teacherId)
                                            .Select(x => new
                                                         {
-                                                            CourseId = x.course_id,
+                                                            CourseCode = x.Course.course_code,
                                                             CourseName = x.Course.course_name,
                                                             Rate = (_db.UserReview.Where(y => y.course_id == x.course_id
                                                                                              && y.teacher_id == x.teacher_id)
@@ -64,7 +64,7 @@ namespace Senseition.Controllers
                                            .ToList();
             
             if (!courses.Any())
-                return BadRequest(new { Message = "course not found"});
+                return BadRequest(new { Message = "course or teacher not found"});
 
             return Json(courses);
         }

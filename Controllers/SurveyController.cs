@@ -18,7 +18,7 @@ namespace Senseition.Controllers
     {
         public SurveyController(ApplicationDbContext context) : base(context) { }
 
-        [HttpPost("Survey")]
+        [HttpPost("Surveys")]
 
         public async Task<IActionResult> Survey(SurveyViewModel model)
         {
@@ -35,25 +35,30 @@ namespace Senseition.Controllers
                 
                 var user = _db.Users.Find(model.UserId);
                 var teacher = _db.Teacher.Find(model.TeacherId);
+                var course = _db.Course.Find(model.CourseId);
 
                 var userReview = new UserReview
-                                    {
-                                        user_id = model.UserId,
-                                        semeter = "2",
-                                        course_id = model.CourseId,
-                                        teacher_id = model.TeacherId,
-                                        review_message = model.ReviewMessage,
-                                        like_no = 0,
-                                        average_rate = (model.AnswerQuestion1 + model.AnswerQuestion2 + model.AnswerQuestion3 
-                                                        + model.AnswerQuestion4 + model.AnswerQuestion5) / 5,
-                                        user_first_name = user.first_name,
-                                        user_last_name = user.last_name,
-                                        teacher_first_name = teacher.first_name,
-                                        teacher_last_name = teacher.last_name,
-                                        course_name = _db.Course.Find(model.CourseId).course_name,
-                                        post_date_time = DateTime.UtcNow
-                                    };
+                                 {
+                                     user_id = model.UserId,
+                                     semeter = "2/2020",
+                                     course_id = model.CourseId,
+                                     teacher_id = model.TeacherId,
+                                     review_message = model.ReviewMessage,
+                                     like_no = 0,
+                                     average_rate = (model.AnswerQuestion1 + model.AnswerQuestion2 + model.AnswerQuestion3 
+                                                    + model.AnswerQuestion4 + model.AnswerQuestion5) / 5.0f,
+                                     user_first_name = user.first_name,
+                                     user_last_name = user.last_name,
+                                     teacher_first_name = teacher.first_name,
+                                     teacher_last_name = teacher.last_name,
+                                     course_name = course.course_name,
+                                     course_code = course.course_code,
+                                     post_date_time = DateTime.UtcNow,
+                                 };
                 
+                var totalReviews = _db.UserReview.Count(x => x.teacher_id == model.TeacherId);
+                var totalScores = _db.UserReview.Where(x => x.teacher_id == model.TeacherId).Sum(x => x.average_rate);
+                teacher.rate = (totalScores + userReview.average_rate) / (totalReviews + 1);
                 survey.UserReview = userReview;
                 _db.Survey.Add(survey);
                 await _db.SaveChangesAsync();

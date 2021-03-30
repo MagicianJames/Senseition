@@ -37,6 +37,7 @@ namespace Senseition.Models.DataModels
         [StringLength(100)]
         public string teacher_last_name { get; set; }
         public string course_name { get; set; }
+        public string course_code { get; set; }
         public DateTime post_date_time { get; set; }
     }
 }
