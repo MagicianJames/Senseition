@@ -5,6 +5,7 @@
 # .NET Core build folders
 bin/
 obj/
+obj/Debug/netcoreapp3.1
 
 # Common node modules locations
 /node_modules

@@ -22,6 +22,7 @@ namespace Senseition
         }
 
         public IConfiguration Configuration { get; }
+        private const string SenseitionOrigin = "_SenseitionOrigin";
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -29,6 +30,16 @@ namespace Senseition
             services.AddControllersWithViews();
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DBServer")));
+
+            services.AddCors(options => {
+                                         options.AddPolicy(name : SenseitionOrigin,
+                                                                 builder => 
+                                                                 {
+                                                                    builder.WithOrigins("http://localhost:3000")
+                                                                           .AllowAnyHeader()
+                                                                           .AllowAnyMethod();
+                                                                 });
+                                        });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -48,6 +59,8 @@ namespace Senseition
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.UseCors(SenseitionOrigin);
 
             app.UseAuthorization();
 
