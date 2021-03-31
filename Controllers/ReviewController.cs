@@ -65,7 +65,7 @@ namespace Senseition.Controllers
                                                  ReviewId = x.id,
                                                  Rate = x.average_rate,
                                                  MaxRate = 5,
-                                                 UserName = x.User.user_full_name,
+                                                 UserFullName = x.User.user_full_name,
                                                  UserPictureUrl = x.User.user_picture_url,
                                                  Comment = x.review_message,
                                                  LikeNum = x.like_no
