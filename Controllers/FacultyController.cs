@@ -75,7 +75,8 @@ namespace Senseition.Controllers
                                                              LastName = x.last_name,
                                                              Major = x.Major.major_name,
                                                              Position = x.position,
-                                                             Rate = x.rate
+                                                             Rate = x.rate,
+                                                             MaxRate = 5
                                                          })
                                             .Skip(pageSize * (page - 1))
                                             .Take(pageSize)
